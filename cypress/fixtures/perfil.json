@@ -1,4 +1,14 @@
+[
 {
   "usuario": "aluno_ebac@teste.com",
   "senha": "teste@teste.com"
+},
+{
+  "usuario": "joaozinho@teste.com",
+  "senha": "testejoao@teste.com"
+},
+{
+  "usuario": "aninha@teste.com",
+  "senha": "testeaninha@teste.com"
 }
+]
