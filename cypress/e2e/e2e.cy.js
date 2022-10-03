@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+let dadosLogin
 import perfil from '../fixtures/perfil.json';
 import EnderecoPage from '../support/page_objects/endereco.page'
 
@@ -13,18 +14,18 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
         E validando minha compra ao final */
 
     beforeEach(() => {
-        cy.visit('minha-conta')
+        cy.visit('minha-conta') 
     });
-
-
-
-    it.only('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
-
-        cy.get('#username').type(perfil[1].usuario)
-        cy.get('#password').type(perfil[1].senha)
-        cy.get('.woocommerce-form > .button').click()
-        cy.get('.page-title').should('contain', 'Minha conta')
-
+        
+    it('Deve fazer um pedido na loja Ebac Shop de ponta a ponta', () => {
+        cy.fixture('perfil').then(dados => {
+            cy.get('#username').type(dados[1].usuario)
+            cy.get('#password').type(dados[1].senha)
+            cy.get('.woocommerce-form > .button').click()
+            cy.get('.page-title').should('contain', 'Minha conta')
+        })
+        
+       
         cy.get('.woocommerce-MyAccount-navigation-link--edit-address > a').click()
         cy.get(':nth-child(1) > .title > .edit').click()
 
@@ -33,17 +34,14 @@ context('Exercicio - Testes End-to-end - Fluxo de pedido', () => {
 
         cy.get(':nth-child(2) > .title > .edit').click()
 
-        EnderecoPage.editarEnderecoEntrega('Maria', 'Geralda', 'Canção Nova', 'Brasil', 'Central', '10', 'Belo Horizonte', 'Minas Gerais', '15778963')
+        EnderecoPage.editarEnderecoEntrega('Antonio', 'Gonzaga', 'Deposito central', 'Brasil', 'Quintiliano da Silva', '100', 'São Paulo', 'São Paulo', '04841120')
         cy.get('.woocommerce-message').should('contain', 'Endereço alterado com sucesso.')
 
         cy.get('#primary-menu > .menu-item-629 > a').click()
 
         cy.addProdutos('Arcadio Gym Short', 32, 'Blue', 2)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
         cy.addProdutos('Argus All-Weather Tank', 'XL', 'Gray', 4)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
         cy.addProdutos('Atlas Fitness Tank', 'XS', 'Blue', 1)
-        cy.get('#primary-menu > .menu-item-629 > a').click()
         cy.addProdutos('Ajax Full-Zip Sweatshirt', 'XL', 'Red', 1)
 
         cy.get('.dropdown-toggle > .text-skin').click()
